@@ -4,12 +4,12 @@ cfg_if::cfg_if! {
         use nix::sys::signal::Signal;
         use nix::unistd::Pid;
 
-        pub fn pause_proc(pid: i32) {
-            let _ = signal::kill(Pid::from_raw(pid), Signal::SIGSTOP);
+        pub fn pause_proc(pid: u32) {
+            let _ = signal::kill(Pid::from_raw(pid as i32), Signal::SIGSTOP);
         }
 
-        pub fn cont_proc(pid: i32) {
-            let _ = signal::kill(Pid::from_raw(pid), Signal::SIGCONT);
+        pub fn cont_proc(pid: u32) {
+            let _ = signal::kill(Pid::from_raw(pid as i32), Signal::SIGCONT);
         }
 
         pub fn is_process_effectively_dead(pid: u32) -> bool {
@@ -34,9 +34,9 @@ cfg_if::cfg_if! {
         use winapi::um::minwinbase::STILL_ACTIVE;
         use winapi::shared::ntdef::NULL;
 
-        pub fn pause_proc(pid: i32) {
+        pub fn pause_proc(pid: u32) {
             unsafe {
-                let process_handle = OpenProcess(PROCESS_ALL_ACCESS, 0, pid as u32);
+                let process_handle = OpenProcess(PROCESS_ALL_ACCESS, 0, pid);
 
                 if process_handle == NULL {
                     return;
@@ -46,9 +46,9 @@ cfg_if::cfg_if! {
             }
         }
 
-        pub fn cont_proc(pid: i32) {
+        pub fn cont_proc(pid: u32) {
             unsafe {
-                let process_handle = OpenProcess(PROCESS_ALL_ACCESS, 0, pid as u32);
+                let process_handle = OpenProcess(PROCESS_ALL_ACCESS, 0, pid);
 
                 if process_handle == NULL {
                     return;
@@ -60,7 +60,7 @@ cfg_if::cfg_if! {
 
         pub fn is_process_effectively_dead(pid: u32) -> bool {
             unsafe {
-                let process_handle = OpenProcess(PROCESS_QUERY_INFORMATION, 0, pid as u32);
+                let process_handle = OpenProcess(PROCESS_QUERY_INFORMATION, 0, pid);
                 let mut exit_code = 0;
 
                 // process probably doesnt exist at this point

@@ -223,7 +223,7 @@ impl Session {
     pub fn pause(&mut self) {
         if let Some(x) = self.child_pid {
             if !self.is_throttled {
-                crate::utils::pause_proc(x as i32);
+                crate::utils::pause_proc(x);
                 self.is_throttled = true;
             }
         }
@@ -232,7 +232,7 @@ impl Session {
     pub fn cont(&mut self) {
         if let Some(x) = self.child_pid {
             if self.is_throttled {
-                crate::utils::cont_proc(x as i32);
+                crate::utils::cont_proc(x);
                 self.is_throttled = false;
             }
         }
