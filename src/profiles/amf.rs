@@ -83,7 +83,7 @@ impl TranscodingProfile for AmfTranscodeProfile {
             format!("expr:gte(t,n_forced*{})", ctx.output_ctx.target_gop),
         ]);
 
-        args.append(&mut vec!["-hls_segment_type".into(), 1.to_string()]);
+        args.append(&mut vec!["-hls_segment_type".into(), "fmp4".into()]);
         args.append(&mut vec![
             "-loglevel".into(),
             "info".into(),

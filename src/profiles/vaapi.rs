@@ -267,7 +267,7 @@ impl TranscodingProfile for VaapiTranscodeProfile {
             "0".into(),
         ]);
 
-        args.append(&mut vec!["-hls_segment_type".into(), 1.to_string()]);
+        args.append(&mut vec!["-hls_segment_type".into(), "fmp4".into()]);
         args.append(&mut vec![
             "-loglevel".into(),
             "info".into(),

@@ -43,7 +43,7 @@ impl TranscodingProfile for H264TransmuxProfile {
 
         args.append(&mut vec![
             "-start_at_zero".into(),
-            "-vsync".into(),
+            "-fps_mode".into(),
             "passthrough".into(),
             "-avoid_negative_ts".into(),
             "disabled".into(),
@@ -86,7 +86,7 @@ impl TranscodingProfile for H264TransmuxProfile {
             format!("expr:gte(t,n_forced*{})", ctx.output_ctx.target_gop),
         ]);
 
-        args.append(&mut vec!["-hls_segment_type".into(), 1.to_string()]);
+        args.append(&mut vec!["-hls_segment_type".into(), "fmp4".into()]);
         args.append(&mut vec![
             "-loglevel".into(),
             "info".into(),
@@ -175,7 +175,7 @@ impl TranscodingProfile for H264TranscodeProfile {
         }
 
         args.append(&mut vec![
-            "-vsync".into(),
+            "-fps_mode".into(),
             "passthrough".into(),
             "-avoid_negative_ts".into(),
             "make_non_negative".into(),
@@ -216,7 +216,7 @@ impl TranscodingProfile for H264TranscodeProfile {
             format!("expr:gte(t,n_forced*{})", ctx.output_ctx.target_gop),
         ]);
 
-        args.append(&mut vec!["-hls_segment_type".into(), 1.to_string()]);
+        args.append(&mut vec!["-hls_segment_type".into(), "fmp4".into()]);
         args.append(&mut vec![
             "-loglevel".into(),
             "info".into(),
