@@ -316,6 +316,22 @@ impl Session {
         None
     }
 
+    pub fn thumbnail(&self, file: String) -> Option<String> {
+        if !matches!(self.profile.stream_type(), StreamType::Thumbnail) {
+            return None;
+        }
+
+        let file = format!("{}/{}", &self.profile_ctx.output_ctx.outdir, file);
+        let path = Path::new(&file);
+
+        // NOTE: This will not check if the ffmpeg process is dead, thus this will return immediately
+        if path.is_file() {
+            return path.to_str().map(ToString::to_string);
+        }
+
+        None
+    }
+
     pub fn is_timeout(&self) -> bool {
         self.current_chunk() > self.last_chunk + MAX_CHUNKS_AHEAD
     }
@@ -340,8 +356,7 @@ impl Session {
     pub fn custom_init_seg(&self, start_num: u32) -> String {
         format!(
             "{}/{}_init.mp4",
-            self.profile_ctx.output_ctx.outdir,
-            start_num
+            self.profile_ctx.output_ctx.outdir, start_num
         )
     }
 

@@ -4,6 +4,7 @@ pub mod audio;
 #[cfg(all(unix, feature = "cuda"))]
 pub mod cuda;
 pub mod subtitle;
+pub mod thumbnail;
 #[cfg(all(unix, feature = "vaapi"))]
 pub mod vaapi;
 pub mod video;
@@ -19,6 +20,7 @@ use serde_derive::{Deserialize, Serialize};
 #[cfg(feature = "ssa_transmux")]
 pub use subtitle::AssExtractProfile;
 pub use subtitle::WebvttTranscodeProfile;
+pub use thumbnail::ThumbnailProfile;
 use tracing::debug;
 use tracing::info;
 use tracing::warn;
@@ -48,6 +50,7 @@ pub fn profiles_init(_ffmpeg_bin: String) {
         Some(Box::new(HevcTransmuxProfile)),
         Some(Box::new(RawVideoTranscodeProfile)),
         Some(Box::new(WebvttTranscodeProfile)),
+        Some(Box::new(ThumbnailProfile)),
         #[cfg(feature = "ssa_transmux")]
         Some(Box::new(AssExtractProfile)),
         #[cfg(all(unix, feature = "cuda"))]
@@ -285,6 +288,7 @@ pub enum StreamType {
     Video,
     Audio,
     Subtitle,
+    Thumbnail,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]

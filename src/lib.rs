@@ -368,6 +368,20 @@ impl StateManager {
     }
 
     #[handler]
+    async fn get_thumbnail(&mut self, id: String, name: String) -> Result<String> {
+        let session = self
+            .sessions
+            .get_mut(&id)
+            .ok_or(NightfallError::SessionDoesntExist)?;
+
+        if !session.has_started() {
+            let _ = session.start().await;
+        }
+
+        session.thumbnail(name).ok_or(NightfallError::ChunkNotDone)
+    }
+
+    #[handler]
     async fn get_stderr(&mut self, id: String) -> Result<String> {
         // TODO: Move this out of here, instead we should just return the log file.
         let session = self
