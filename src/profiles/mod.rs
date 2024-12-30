@@ -11,8 +11,11 @@ pub mod video;
 #[cfg(windows)]
 pub use amf::AmfTranscodeProfile;
 pub use audio::AacTranscodeProfile;
+pub use audio::Ac3TransmuxProfile;
+pub use audio::Eac3TransmuxProfile;
 #[cfg(all(unix, feature = "cuda"))]
 pub use cuda::CudaTranscodeProfile;
+use serde_derive::{Deserialize, Serialize};
 #[cfg(feature = "ssa_transmux")]
 pub use subtitle::AssExtractProfile;
 pub use subtitle::WebvttTranscodeProfile;
@@ -21,8 +24,10 @@ use tracing::info;
 use tracing::warn;
 #[cfg(all(unix, feature = "vaapi"))]
 pub use vaapi::VaapiTranscodeProfile;
+pub use video::AV1TransmuxProfile;
 pub use video::H264TranscodeProfile;
 pub use video::H264TransmuxProfile;
+pub use video::HevcTransmuxProfile;
 pub use video::RawVideoTranscodeProfile;
 
 use crate::NightfallError;
@@ -35,8 +40,12 @@ static PROFILES: OnceCell<Vec<Box<dyn TranscodingProfile>>> = OnceCell::new();
 pub fn profiles_init(_ffmpeg_bin: String) {
     let profiles: Vec<Option<Box<dyn TranscodingProfile>>> = vec![
         Some(Box::new(AacTranscodeProfile)),
+        Some(Box::new(Ac3TransmuxProfile)),
+        Some(Box::new(Eac3TransmuxProfile)),
+        Some(Box::new(AV1TransmuxProfile)),
         Some(Box::new(H264TranscodeProfile)),
         Some(Box::new(H264TransmuxProfile)),
+        Some(Box::new(HevcTransmuxProfile)),
         Some(Box::new(RawVideoTranscodeProfile)),
         Some(Box::new(WebvttTranscodeProfile)),
         #[cfg(feature = "ssa_transmux")]
@@ -202,6 +211,7 @@ pub struct InputCtx {
     pub fps: f64,
     pub bitrate: u64,
     pub seek: Option<i64>,
+    pub side_data_list: Option<Vec<SideDataList>>,
 }
 
 impl Default for InputCtx {
@@ -216,6 +226,7 @@ impl Default for InputCtx {
             fps: 0.0,
             bitrate: 0,
             seek: None,
+            side_data_list: None,
         }
     }
 }
@@ -274,4 +285,19 @@ pub enum StreamType {
     Video,
     Audio,
     Subtitle,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct SideDataList {
+    pub side_data_type: String,
+    pub service_type: Option<i64>,
+    pub dv_version_major: Option<i64>,
+    pub dv_version_minor: Option<i64>,
+    pub dv_profile: Option<i64>,
+    pub dv_level: Option<i64>,
+    pub rpu_present_flag: Option<i64>,
+    pub el_present_flag: Option<i64>,
+    pub bl_present_flag: Option<i64>,
+    pub dv_bl_signal_compatibility_id: Option<i64>,
+    pub dv_md_compression: Option<String>,
 }
