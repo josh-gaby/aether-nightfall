@@ -54,7 +54,7 @@ impl TranscodingProfile for Eac3TransmuxProfile {
             "-f".into(),
             "hls".into(),
             "-hls_playlist_type".into(),
-            "vod".into(),
+            "event".into(),
             "-start_number".into(),
             start_num,
         ]);
@@ -65,7 +65,7 @@ impl TranscodingProfile for Eac3TransmuxProfile {
         // in progress.
         args.append(&mut vec![
             "-hls_flags".into(),
-            "temp_file".into(),
+            "temp_file+append_list".into(),
             "-max_delay".into(),
             "5000000".into(),
         ]);
@@ -176,7 +176,7 @@ impl TranscodingProfile for Ac3TransmuxProfile {
             "-f".into(),
             "hls".into(),
             "-hls_playlist_type".into(),
-            "vod".into(),
+            "event".into(),
             "-start_number".into(),
             start_num,
         ]);
@@ -187,7 +187,7 @@ impl TranscodingProfile for Ac3TransmuxProfile {
         // in progress.
         args.append(&mut vec![
             "-hls_flags".into(),
-            "temp_file".into(),
+            "temp_file+append_list".into(),
             "-max_delay".into(),
             "5000000".into(),
         ]);
@@ -309,7 +309,7 @@ impl TranscodingProfile for AacTranscodeProfile {
             "-f".into(),
             "hls".into(),
             "-hls_playlist_type".into(),
-            "vod".into(),
+            "event".into(),
             "-start_number".into(),
             start_num,
         ]);
@@ -320,7 +320,7 @@ impl TranscodingProfile for AacTranscodeProfile {
         // in progress.
         args.append(&mut vec![
             "-hls_flags".into(),
-            "temp_file".into(),
+            "temp_file+append_list".into(),
             "-max_delay".into(),
             "5000000".into(),
         ]);

@@ -55,7 +55,7 @@ impl TranscodingProfile for HevcTransmuxProfile {
             "-f".into(),
             "hls".into(),
             "-hls_playlist_type".into(),
-            "vod".into(),
+            "event".into(),
             "-start_number".into(),
             start_num,
         ]);
@@ -66,7 +66,7 @@ impl TranscodingProfile for HevcTransmuxProfile {
         // in progress.
         args.append(&mut vec![
             "-hls_flags".into(),
-            "temp_file".into(),
+            "temp_file+append_list".into(),
             "-max_delay".into(),
             "5000000".into(),
         ]);
@@ -186,7 +186,7 @@ impl TranscodingProfile for H264TransmuxProfile {
             "-f".into(),
             "hls".into(),
             "-hls_playlist_type".into(),
-            "vod".into(),
+            "event".into(),
             "-start_number".into(),
             start_num,
         ]);
@@ -197,7 +197,7 @@ impl TranscodingProfile for H264TransmuxProfile {
         // in progress.
         args.append(&mut vec![
             "-hls_flags".into(),
-            "temp_file".into(),
+            "temp_file+append_list".into(),
             "-max_delay".into(),
             "5000000".into(),
         ]);
@@ -308,7 +308,7 @@ impl TranscodingProfile for AV1TransmuxProfile {
             "-f".into(),
             "hls".into(),
             "-hls_playlist_type".into(),
-            "vod".into(),
+            "event".into(),
             "-start_number".into(),
             start_num,
         ]);
@@ -319,7 +319,7 @@ impl TranscodingProfile for AV1TransmuxProfile {
         // in progress.
         args.append(&mut vec![
             "-hls_flags".into(),
-            "temp_file".into(),
+            "temp_file+append_list".into(),
             "-max_delay".into(),
             "5000000".into(),
         ]);
@@ -453,7 +453,7 @@ impl TranscodingProfile for H264TranscodeProfile {
         // in progress.
         args.append(&mut vec![
             "-hls_flags".into(),
-            "temp_file".into(),
+            "temp_file+append_list".into(),
             "-max_delay".into(),
             "5000000".into(),
         ]);

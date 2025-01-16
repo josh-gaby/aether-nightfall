@@ -244,7 +244,7 @@ impl TranscodingProfile for VaapiTranscodeProfile {
             "-hls_flags".into(),
             "independent_segments".into(),
             "-hls_flags".into(),
-            "temp_file".into(),
+            "temp_file+append_list".into(),
             "-max_delay".into(),
             "5000000".into(),
         ]);

@@ -21,6 +21,7 @@ use crate::session::Session;
 
 use std::collections::HashMap;
 use std::fmt;
+use std::path::Path;
 use std::time::Duration;
 use std::time::Instant;
 
@@ -146,6 +147,21 @@ impl StateManager {
         self.sessions.insert(session_id.clone(), new_session);
 
         Ok(session_id)
+    }
+
+    #[handler]
+    async fn hls_playlist_request(&mut self, id: String, _chunk: u32) -> Result<String> {
+        let session = self
+            .sessions
+            .get_mut(&id)
+            .ok_or(NightfallError::SessionDoesntExist)?;
+
+        let path = format!("{}/playlist.m3u8", session.profile_ctx.output_ctx.outdir);
+        if Path::new(&path).exists() {
+            return Ok(path);
+        }
+
+        Err(NightfallError::ChunkNotDone)
     }
 
     #[handler]
