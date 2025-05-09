@@ -244,7 +244,7 @@ impl TranscodingProfile for VaapiTranscodeProfile {
             "-hls_flags".into(),
             "independent_segments".into(),
             "-hls_flags".into(),
-            "temp_file".into(),
+            "temp_file+append_list".into(),
             "-max_delay".into(),
             "5000000".into(),
         ]);
@@ -267,7 +267,7 @@ impl TranscodingProfile for VaapiTranscodeProfile {
             "0".into(),
         ]);
 
-        args.append(&mut vec!["-hls_segment_type".into(), 1.to_string()]);
+        args.append(&mut vec!["-hls_segment_type".into(), "fmp4".into()]);
         args.append(&mut vec![
             "-loglevel".into(),
             "info".into(),
